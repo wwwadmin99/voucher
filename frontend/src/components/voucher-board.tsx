@@ -1,6 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useState } from 'react'
 import { api } from '@/lib/api'
+import { routes } from '@/lib/routes'
 import { Alert, AlertDescription } from '@/components/ui/alert'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
@@ -21,7 +22,7 @@ export function VoucherBoard({ userId }: VoucherBoardProps) {
   } = useQuery({
     queryKey: ['balances', userId],
     queryFn: async () => {
-      const { data, error } = await api.GET('/api/users/{user_id}/balances', {
+      const { data, error } = await api.GET(routes.userBalances, {
         params: { path: { user_id: userId } },
       })
       if (error) throw error
@@ -31,7 +32,7 @@ export function VoucherBoard({ userId }: VoucherBoardProps) {
 
   const activate = useMutation({
     mutationFn: async (productId: string) => {
-      const { data, error } = await api.POST('/api/users/{user_id}/activations', {
+      const { data, error } = await api.POST(routes.userActivations, {
         params: { path: { user_id: userId } },
         body: { product_id: productId },
       })

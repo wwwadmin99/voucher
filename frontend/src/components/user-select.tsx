@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query'
 import { api } from '@/lib/api'
+import { routes } from '@/lib/routes'
 import {
   Select,
   SelectContent,
@@ -18,7 +19,7 @@ export function UserSelect({ userId, onChange }: UserSelectProps) {
   const { data: users, isPending, isError } = useQuery({
     queryKey: ['users'],
     queryFn: async () => {
-      const { data, error } = await api.GET('/api/users')
+      const { data, error } = await api.GET(routes.users)
       if (error) throw error
       return data
     },

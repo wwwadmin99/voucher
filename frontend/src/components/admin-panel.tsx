@@ -1,6 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useState } from 'react'
 import { api } from '@/lib/api'
+import { routes } from '@/lib/routes'
 import { Alert, AlertDescription } from '@/components/ui/alert'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
@@ -29,7 +30,7 @@ export function AdminPanel({ userId }: AdminPanelProps) {
   const { data: products } = useQuery({
     queryKey: ['products'],
     queryFn: async () => {
-      const { data, error } = await api.GET('/api/products')
+      const { data, error } = await api.GET(routes.products)
       if (error) throw error
       return data
     },
@@ -37,7 +38,7 @@ export function AdminPanel({ userId }: AdminPanelProps) {
 
   const setBalance = useMutation({
     mutationFn: async () => {
-      const { data, error } = await api.PUT('/api/users/{user_id}/balances/{product_id}', {
+      const { data, error } = await api.PUT(routes.userBalance, {
         params: { path: { user_id: userId, product_id: productId } },
         body: { quantity: Number(quantity) },
       })

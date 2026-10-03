@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query'
 import { api } from '@/lib/api'
+import { routes } from '@/lib/routes'
 import { Alert, AlertDescription } from '@/components/ui/alert'
 import {
   Table,
@@ -23,7 +24,7 @@ export function ActivationHistory({ userId }: ActivationHistoryProps) {
   } = useQuery({
     queryKey: ['activations', userId],
     queryFn: async () => {
-      const { data, error } = await api.GET('/api/users/{user_id}/activations', {
+      const { data, error } = await api.GET(routes.userActivations, {
         params: { path: { user_id: userId } },
       })
       if (error) throw error
