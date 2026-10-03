@@ -1,0 +1,34 @@
+# Rust
+/target
+**/target
+Cargo.lock.bak
+*.pdb
+
+# sqlx offline query cache (keep .sqlx/ if you use `cargo sqlx prepare`, remove this line then)
+# .sqlx/
+
+# Env / secrets
+.env
+.env.*
+!.env.example
+
+# Node / frontend
+node_modules/
+dist/
+build/
+.vite/
+*.tsbuildinfo
+.turbo/
+
+# Editors / OS
+.vscode/
+.idea/
+*.swp
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
