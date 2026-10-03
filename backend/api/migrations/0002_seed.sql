@@ -1,9 +1,7 @@
 insert into users (name) values
-    ('Алиса'),
-    ('Боб'),
-    ('Чарли');
+    ('Nur');
 
 insert into products (name) values
-    ('Pro Plan'),
-    ('Tuning Session'),
-    ('Dyno Run');
+    ('Дизайн'),
+    ('Создание сайта'),
+    ('IT-услуги');
