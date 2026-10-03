@@ -1,12 +1,6 @@
 use std::net::SocketAddr;
 
-use axum::{routing::get, Router};
-use sqlx::postgres::PgPoolOptions;
-
-#[derive(Clone)]
-struct AppState {
-    db: sqlx::PgPool,
-}
+use voucher_api::{app_router, connect, state::AppState};
 
 #[tokio::main]
 async fn main() -> anyhow::Result<()> {
@@ -14,16 +8,11 @@ async fn main() -> anyhow::Result<()> {
     tracing_subscriber::fmt::init();
 
     let database_url = std::env::var("DATABASE_URL")?;
-    let db = PgPoolOptions::new()
-        .max_connections(5)
-        .connect(&database_url)
-        .await?;
-
+    let db = connect(&database_url).await?;
     let state = AppState { db };
 
-    let app = Router::new()
-        .route("/health", get(health))
-        .with_state(state);
+    let static_dir = std::env::var("STATIC_DIR").unwrap_or_else(|_| "static".to_string());
+    let app = app_router(state, Some(&static_dir));
 
     let addr = SocketAddr::from(([0, 0, 0, 0], 8080));
     tracing::info!("listening on {addr}");
@@ -31,11 +20,4 @@ async fn main() -> anyhow::Result<()> {
     axum::serve(listener, app).await?;
 
     Ok(())
-}
-
-async fn health(axum::extract::State(state): axum::extract::State<AppState>) -> &'static str {
-    match sqlx::query("SELECT 1").execute(&state.db).await {
-        Ok(_) => "ok",
-        Err(_) => "db error",
-    }
 }
