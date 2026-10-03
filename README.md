@@ -9,14 +9,19 @@
 
 ## Запуск одной командой
 
-Нужен только Docker.
+Нужен Docker (и, если хочется `npm start`, — Node.js; без него просто
+используйте команду docker compose напрямую).
 
 ```sh
+npm start
+# или напрямую:
 docker compose up --build
 ```
 
 Открыть http://localhost:8080 — один сервис `api` поднимает миграции (и сид
 пользователей/продуктов) и раздаёт и API, и собранный фронтенд.
+
+Остановить: `npm stop` (или `docker compose down`).
 
 Swagger UI с OpenAPI-схемой: http://localhost:8080/api/docs
 
